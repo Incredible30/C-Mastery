@@ -126,6 +126,19 @@ where user_id = (select id from auth.users where email = 'learner@example.com');
 6. Tick **Free preview** to let every plan read a lesson.
 7. **Delete** asks for confirmation and also removes everything inside (a module's lessons, a lesson's progress records).
 
+### Editing lesson content in bulk
+
+All 42 lesson texts live as Markdown files in `supabase/content/`, one file per module (for example `05-pointers.md`). Each lesson starts with a marker line such as `<!-- lesson: pointer-arithmetic -->`.
+
+1. Edit the file in any text editor and save it.
+2. Load the changes into the database:
+   ```bash
+   npm run content:sync
+   ```
+   Add `-- --dry-run` to see what would change without writing anything.
+
+**Pick one place to edit each lesson.** `content:sync` overwrites the lesson text in the database with the file's version. If you edit a lesson in Course Admin and later run the sync, your Course Admin edit to that lesson's text is replaced. Use the files for the built-in course, and Course Admin for lessons you add yourself.
+
 ---
 
 ## 4. Giving other people access
@@ -157,6 +170,7 @@ People then visit your address and sign up themselves. Promote instructors with 
 | `npm run db:start` / `db:reset` | Start local Supabase / rebuild it with seed data |
 | `npm run db:push` | Apply new migrations to the linked cloud project |
 | `npm run db:types` | Generate database types from the local schema |
+| `npm run content:sync` | Load lesson text from `supabase/content/` into the database |
 
 ---
 
@@ -199,5 +213,6 @@ docs/              this book and the development checklist
 | No confirmation email arrives | Local: check http://localhost:54324. Cloud: check spam, or set up custom SMTP. |
 | Course Admin missing from the sidebar | Your role is still `student`. Run the SQL in Step 5 and refresh. |
 | Roadmap says "No course published yet" | The seed did not run. Run `npx supabase db push --include-seed` or `npm run db:reset`. |
+| Lessons show only a short placeholder | The lesson text hasn't been loaded. Run `npm run content:sync`. |
 | `supabase` command fails after install | Run `npm approve-scripts supabase`, then `npm install` again. |
 | `db:start` fails | Docker Desktop must be installed and running. Otherwise use Option A. |

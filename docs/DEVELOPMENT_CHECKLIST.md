@@ -41,6 +41,7 @@ Status as of 15 Nov 2026. Each milestone ends with `npm run check` passing and, 
 - [x] Mark lesson complete (credits minutes and XP once)
 - [x] Admin: edit course; create, edit, delete modules and lessons; draft and publish
 - [x] Validation errors shown per field; duplicate slugs reported clearly
+- [x] Full lesson content for all 42 lessons in `supabase/content/`, loaded with `npm run content:sync`; tests check every seeded lesson has content
 
 ## Next milestones
 - [ ] **5. Coding practice + Judge0**: problem list, Monaco editor, submissions queued server-side, hidden tests read with the service role only, Judge0 in an isolated network with CPU, memory and time limits, per-user submission rate limits
