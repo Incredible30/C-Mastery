@@ -12,6 +12,8 @@ const serverSchema = z.object({
   ANTHROPIC_MODEL: z.string().default("claude-sonnet-5-5"),
   JUDGE0_URL: z.string().url().optional(),
   JUDGE0_API_KEY: z.string().optional(),
+  JUDGE0_LANGUAGE_ID: z.coerce.number().int().positive().default(50), // 50 = C (GCC) on Judge0 CE
+  JUDGE_MODE: z.enum(["judge0", "local-dev"]).optional(),
   RAZORPAY_KEY_ID: z.string().optional(),
   RAZORPAY_KEY_SECRET: z.string().optional(),
   RAZORPAY_WEBHOOK_SECRET: z.string().optional(),

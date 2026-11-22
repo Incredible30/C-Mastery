@@ -51,7 +51,7 @@ export default async function DashboardPage() {
         <Card className="grid gap-1.5">
           <Kicker>Problems solved</Kicker>
           <div className="font-display text-3xl font-bold tabular-nums">{solvedIds.length}</div>
-          <span className="text-[13px] text-muted">Practice problems arrive in the next release</span>
+          <Link href="/practice" className="text-[13px] font-medium text-accent">Solve a problem →</Link>
         </Card>
         <Card className="grid gap-1.5">
           <Kicker>Current level</Kicker>

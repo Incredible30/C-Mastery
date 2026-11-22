@@ -62,6 +62,17 @@ export const lessonSchema = z.object({
 
 export const studyMinutesSchema = z.coerce.number().int().min(1).max(240);
 
+const utf8Bytes = (s: string) => new TextEncoder().encode(s).length;
+
+/** Body of POST /api/judge/run and /api/judge/submit. */
+export const judgeRequestSchema = z.object({
+  slug: z.string().regex(/^[a-z0-9-]{2,80}$/, "Unknown problem"),
+  source: z.string()
+    .refine((s) => s.trim().length > 0, "Write some code first")
+    .refine((s) => utf8Bytes(s) <= 65_536, "Code is larger than 64 KB"),
+  stdin: z.string().refine((s) => utf8Bytes(s) <= 10_000, "Custom input is larger than 10 KB").optional(),
+});
+
 export type FieldErrors = Record<string, string>;
 export type ActionResult<T = undefined> =
   | { ok: true; data?: T; message?: string }

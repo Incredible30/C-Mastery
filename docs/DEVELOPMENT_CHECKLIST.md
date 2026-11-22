@@ -44,8 +44,21 @@ Status as of 15 Nov 2026. Each milestone ends with `npm run check` passing and, 
 - [x] Full lesson content for all 42 lessons in `supabase/content/`, loaded with `npm run content:sync`; tests check every seeded lesson has content
 
 ## Next milestones
-- [ ] **5. Coding practice + Judge0**: problem list, Monaco editor, submissions queued server-side, hidden tests read with the service role only, Judge0 in an isolated network with CPU, memory and time limits, per-user submission rate limits
-- [ ] **6. Code playground**: Monaco with C syntax, stdin, run via the same isolated Judge0 path
+## Milestone 5: Coding practice + Judge0 ✅
+- [x] 15 problems as files with statements, hints, starter code, reference solutions and 67 tests; `problems:check` verifies every test against the reference solution
+- [x] Problem bank expanded to 400 problems (50 per module: 17 easy / 20 medium / 13 hard; hard = Pro) in per-module folders; `problems:build` fills expected outputs from reference solutions; slugs unique across modules
+- [x] Problem list with filters and progress; problem page with Monaco editor, run on examples, custom input, submit
+- [x] Judge0 runner (hosted RapidAPI or self-hosted), expected outputs never sent to Judge0; development-only gcc runner refused in production
+- [x] Hidden tests read with the service role only and never returned to the browser; per-test results redacted for hidden tests
+- [x] Submissions saved server-side; first accepted solve credits XP and the daily activity once
+- [x] Rate limits: runs 30 per 5 minutes; submissions 10 per 5 minutes and 150 per day
+- [x] Leaderboard showing first name and last initial only
+- [x] Tests: grading rules, hidden-data redaction, Judge0 mapping, request validation, real gcc end-to-end runs
+- [ ] Admin screens for editing problems (problems are edited as files today)
+- [ ] Run against a live Judge0 instance (needs a Judge0 key or server)
+
+## Next milestones
+- [ ] **6. Code playground**: free-form Monaco editor with stdin, reusing the same judge runner
 - [ ] **7. AI tutor (Claude API)**: four modes, streaming from a server route, `consume_ai_message()` quota per plan, prompt rules that give hints before answers
 - [ ] **8. Razorpay subscriptions**: server-created orders, signature-verified webhooks, idempotent `webhook_events`, plan changes only from webhooks
 - [ ] **9. Debugging lab and assessments**

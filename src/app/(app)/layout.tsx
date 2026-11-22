@@ -10,6 +10,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const items: NavItem[] = [
     { href: "/dashboard", label: "Dashboard", icon: "home" },
     { href: "/learn", label: "Learning Roadmap", icon: "map" },
+    { href: "/practice", label: "Coding Practice", icon: "code" },
+    { href: "/leaderboard", label: "Leaderboard", icon: "trophy" },
   ];
   if (isStaff(viewer.profile.role)) items.push({ href: "/admin", label: "Course Admin", icon: "settings" });
 

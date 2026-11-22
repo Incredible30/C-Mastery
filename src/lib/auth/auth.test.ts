@@ -22,7 +22,7 @@ describe("safeNextPath", () => {
 
 describe("isProtectedPath", () => {
   it("guards app areas", () => {
-    for (const p of ["/dashboard", "/learn", "/learn/pointers/arith", "/admin/modules", "/account"]) expect(isProtectedPath(p)).toBe(true);
+    for (const p of ["/dashboard", "/learn", "/learn/pointers/arith", "/practice", "/practice/check-prime", "/leaderboard", "/admin/modules", "/account"]) expect(isProtectedPath(p)).toBe(true);
   });
   it("leaves public pages open", () => {
     for (const p of ["/", "/login", "/signup", "/pricing", "/learner", "/dashboards"]) expect(isProtectedPath(p)).toBe(false);

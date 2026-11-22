@@ -141,6 +141,49 @@ All 42 lesson texts live as Markdown files in `supabase/content/`, one file per 
 
 ---
 
+## 3b. Coding Practice (HackerRank-style problems)
+
+Learners open **Coding Practice**, pick a problem, write C in the editor and:
+
+- **Run examples:** runs their code on the visible examples and shows input, expected and actual output.
+- **Test with my own input:** runs their code on input they type.
+- **Submit:** judges their code on every test, including hidden ones. Hidden tests show only pass or fail, never their data. The first accepted submission earns the problem's XP, counts on the dashboard and appears on the **Leaderboard**.
+
+Limits per learner: 30 runs per 5 minutes; 10 submissions per 5 minutes and 150 a day.
+
+### Setting up the code runner
+
+Learners' code must never run on your server. In production it runs in **Judge0**, a sandbox with CPU, memory and time limits. Pick one:
+
+| Option | Good for | What to put in `.env.local` / Vercel |
+| --- | --- | --- |
+| Hosted Judge0 on RapidAPI | Getting started quickly | `JUDGE0_URL=https://judge0-ce.p.rapidapi.com` and `JUDGE0_API_KEY=` your RapidAPI key |
+| Your own Judge0 server | Many learners, lower cost per run | `JUDGE0_URL=http://your-server:2358` and `JUDGE0_API_KEY=` its auth token |
+
+**Hosted:** sign up at rapidapi.com, search for "Judge0 CE", subscribe to a plan (the free plan allows a small number of runs a day), and copy your key from the Endpoints page.
+
+**Your own server:** Judge0 needs a Linux server with Docker. Follow the deployment guide on Judge0's GitHub page, set an authentication token, and keep port 2358 closed to everyone except your app.
+
+`JUDGE0_LANGUAGE_ID=50` is C (GCC) on Judge0 CE. Change it only if your Judge0 lists C under a different number.
+
+**On your own PC only**, `JUDGE_MODE=local-dev` runs code with your computer's gcc so you can try Coding Practice without Judge0. It is **not sandboxed**, so use it only for your own code. The app refuses to use it in production.
+
+### Adding or changing problems
+
+There are 400 problems: 50 per module, split into 17 easy, 20 medium and 13 hard. Easy and medium problems are free; hard problems need Pro. Each problem is one file in its module's folder, such as `supabase/problems/pointers/504-reverse-print-pointer.md`. The file name (without the number) is the problem's slug and must be unique across all modules. A file contains the statement, hints, starter code, a reference solution and tests. Copy an existing file to start a new one.
+
+You can write tests as input only. `problems:build` runs the reference solution and fills in the expected output.
+
+```bash
+npm run problems:build -- pointers   # fill in missing expected outputs (module name optional)
+npm run problems:check -- pointers   # verify one module, or leave the name off to check all
+npm run problems:sync
+```
+
+`problems:check` compiles every starter and reference solution and runs the solution against every test, so a wrong expected answer is caught before learners see it. It also rejects duplicate slugs. `problems:sync` uploads problems and tests to the database. Reference solutions are never uploaded.
+
+---
+
 ## 4. Giving other people access
 
 Running on your PC only you can use it. To let others in, deploy it.
@@ -171,6 +214,10 @@ People then visit your address and sign up themselves. Promote instructors with 
 | `npm run db:push` | Apply new migrations to the linked cloud project |
 | `npm run db:types` | Generate database types from the local schema |
 | `npm run content:sync` | Load lesson text from `supabase/content/` into the database |
+| `npm run content:check` | Compile every complete C program in the lessons with gcc (run after editing lessons) |
+| `npm run problems:build` | Fill in missing expected outputs from the reference solutions |
+| `npm run problems:check` | Run every problem's reference solution against its tests |
+| `npm run problems:sync` | Upload practice problems and tests to the database |
 
 ---
 
@@ -214,5 +261,8 @@ docs/              this book and the development checklist
 | Course Admin missing from the sidebar | Your role is still `student`. Run the SQL in Step 5 and refresh. |
 | Roadmap says "No course published yet" | The seed did not run. Run `npx supabase db push --include-seed` or `npm run db:reset`. |
 | Lessons show only a short placeholder | The lesson text hasn't been loaded. Run `npm run content:sync`. |
+| "The code runner isn't set up yet" | Add `JUDGE0_URL` (and key) to `.env.local`, or `JUDGE_MODE=local-dev` on your own PC, then restart `npm run dev`. |
+| "The code runner is unavailable right now" | Judge0 is down, unreachable, or your RapidAPI plan's daily limit is used up. |
+| Coding Practice shows no problems | Run `npm run problems:sync`. |
 | `supabase` command fails after install | Run `npm approve-scripts supabase`, then `npm install` again. |
 | `db:start` fails | Docker Desktop must be installed and running. Otherwise use Option A. |

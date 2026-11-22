@@ -16,9 +16,14 @@
     "db:push": "supabase db push",
     "db:types": "supabase gen types typescript --local > src/lib/database.types.generated.ts",
     "check": "npm run typecheck && npm run lint && npm run test",
-    "content:sync": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/sync-content.ts"
+    "content:sync": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/sync-content.ts",
+    "content:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-content-code.ts",
+    "problems:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-problems.ts",
+    "problems:sync": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/sync-problems.ts",
+    "problems:build": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-problems.ts"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.119.0",
     "next": "15.5.29",

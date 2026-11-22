@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { lessonSchema, moduleSchema, parseForm, signUpSchema, studyMinutesSchema } from "./validation";
+import { judgeRequestSchema, lessonSchema, moduleSchema, parseForm, signUpSchema, studyMinutesSchema } from "./validation";
 
 const form = (o: Record<string, string>) => { const f = new FormData(); Object.entries(o).forEach(([k, v]) => f.append(k, v)); return f; };
 const uuid = "3f2a9c1e-5b7d-4e8a-9c21-7d4e5f6a8b90";
@@ -40,6 +40,20 @@ describe("lesson form", () => {
   it("rejects out-of-range minutes", () => {
     expect(parseForm(lessonSchema, form({ ...base, estimatedMinutes: "0" })).ok).toBe(false);
     expect(parseForm(lessonSchema, form({ ...base, estimatedMinutes: "601" })).ok).toBe(false);
+  });
+});
+
+describe("judge request", () => {
+  it("accepts code and optional input", () => {
+    expect(judgeRequestSchema.safeParse({ slug: "check-prime", source: "int main(void){}" }).success).toBe(true);
+    expect(judgeRequestSchema.safeParse({ slug: "check-prime", source: "x", stdin: "5\n" }).success).toBe(true);
+  });
+  it("rejects bad slugs, empty or oversized code and oversized input", () => {
+    expect(judgeRequestSchema.safeParse({ slug: "../etc", source: "x" }).success).toBe(false);
+    expect(judgeRequestSchema.safeParse({ slug: "check-prime", source: "   " }).success).toBe(false);
+    expect(judgeRequestSchema.safeParse({ slug: "check-prime", source: "x".repeat(65_537) }).success).toBe(false);
+    expect(judgeRequestSchema.safeParse({ slug: "check-prime", source: "é".repeat(40_000) }).success).toBe(false);
+    expect(judgeRequestSchema.safeParse({ slug: "check-prime", source: "x", stdin: "1".repeat(10_001) }).success).toBe(false);
   });
 });
 

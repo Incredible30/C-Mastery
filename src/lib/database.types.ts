@@ -57,7 +57,7 @@ export type Problem = {
 export type TestCase = { id: string; problem_id: string; input: string; expected_output: string; is_hidden: boolean; position: number };
 export type Submission = {
   id: string; user_id: string; problem_id: string; source_code: string; status: SubmissionStatus; passed: number; total: number;
-  runtime_ms: number | null; created_at: string;
+  runtime_ms: number | null; memory_kb: number | null; compile_output: string | null; details: Json; created_at: string;
 };
 export type AiUsage = { user_id: string; day: string; messages: number; input_tokens: number; output_tokens: number };
 export type RateLimitRow = { key: string; window_start: string; hits: number };
@@ -93,6 +93,11 @@ export type Database = {
       current_plan: { Args: Record<string, never>; Returns: PlanTier };
       admin_set_role: { Args: { p_user: string; p_role: AppRole }; Returns: undefined };
       can_read_lesson: { Args: { p_lesson_id: string }; Returns: boolean };
+      credit_problem_solved: { Args: { p_submission: string }; Returns: boolean };
+      leaderboard: {
+        Args: { p_limit?: number };
+        Returns: { rank: number; display_name: string; solved: number; points: number; is_me: boolean }[];
+      };
     };
     Enums: {
       app_role: AppRole; plan_tier: PlanTier; difficulty: Difficulty; problem_level: ProblemLevel;

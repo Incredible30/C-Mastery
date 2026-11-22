@@ -1,5 +1,5 @@
 /** Routes that require a signed-in user. Checked in middleware and again on each page. */
-export const PROTECTED_PREFIXES = ["/dashboard", "/learn", "/admin", "/account"] as const;
+export const PROTECTED_PREFIXES = ["/dashboard", "/learn", "/practice", "/leaderboard", "/admin", "/account"] as const;
 
 export function isProtectedPath(pathname: string): boolean {
   return PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(p + "/"));
